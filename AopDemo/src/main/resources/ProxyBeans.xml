@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- 定义目标（target）对象 -->
+    <bean id="userDao" class="com.example.dao.UserDaoImpl"/>
+    <bean id="orderDao" class="com.example.dao.OrderDao"/>
+    <!-- 定义增强 -->
+    <bean id="aroundAdvice" class="com.example.advice.OrderDaoAroundAdvice"></bean>
+    <bean id="beforeAdvice" class="com.example.advice.UserDaoBeforeAdvice"/>
+    <!--Spring 自动代理：根据 Bean 名称创建代理独享-->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="*Dao"></property>
+        <property name="interceptorNames" value="aroundAdvice, beforeAdvice"></property>
+    </bean>
+</beans>
+
